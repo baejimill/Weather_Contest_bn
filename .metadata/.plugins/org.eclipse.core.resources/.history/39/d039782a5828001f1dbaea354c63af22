@@ -1,0 +1,5 @@
+package com.ruby.controller;
+
+public class QuestionController {
+
+}

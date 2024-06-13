@@ -1,0 +1,5 @@
+package com.ruby.domain;
+
+public class Question {
+
+}

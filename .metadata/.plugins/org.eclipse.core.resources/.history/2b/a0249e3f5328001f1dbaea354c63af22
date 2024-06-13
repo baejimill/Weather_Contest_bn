@@ -1,0 +1,5 @@
+package com.ruby.persistence;
+
+public interface QuestionRepository {
+
+}

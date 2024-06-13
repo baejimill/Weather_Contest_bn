@@ -1,0 +1,5 @@
+package com.ruby.config;
+
+public class WebConfig {
+
+}
