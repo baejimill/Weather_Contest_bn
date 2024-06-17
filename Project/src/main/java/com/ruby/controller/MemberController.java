@@ -18,13 +18,11 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	@PostMapping("/member") // 웹사이트에서 회원가입을 하면 그 정보를 DB에 저장
+	@PostMapping("/members") // 웹사이트에서 회원가입을 하면 그 정보를 DB에 저장
 	public ResponseEntity<String> createMember(@RequestBody Member member) {
-
 		System.out.println(member);
 		memberService.createMember(member);
 		return ResponseEntity.ok("User created");
-
 	}
 
 	@GetMapping("/id/{id}")

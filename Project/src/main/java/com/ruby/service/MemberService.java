@@ -1,6 +1,8 @@
 package com.ruby.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ruby.domain.Member;
@@ -11,12 +13,12 @@ public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 	
-//	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	public Member createMember(Member member) {
 		System.out.println(member);
 		//보안을 위해 비밀번호 해쉬 처리
-//		member.setPassword(passwordEncoder.encode(member.getPassword()));
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		return memberRepository.save(member);
 	}
 	

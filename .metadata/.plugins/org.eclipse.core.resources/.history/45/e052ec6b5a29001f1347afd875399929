@@ -1,0 +1,5 @@
+package com.ruby.config.filter;
+
+public class JWTAuthorizatioFilter {
+
+}

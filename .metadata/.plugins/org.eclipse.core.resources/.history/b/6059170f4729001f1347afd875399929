@@ -1,0 +1,5 @@
+package com.ruby.service;
+
+public class UserLoginService {
+
+}
