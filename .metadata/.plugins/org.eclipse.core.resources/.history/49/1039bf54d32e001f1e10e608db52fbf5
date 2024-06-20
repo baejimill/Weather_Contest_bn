@@ -1,0 +1,39 @@
+package edu.pnu.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import edu.pnu.DTO.FeatureDTO;
+import edu.pnu.service.FeatureService;
+
+@RestController
+@RequestMapping("/api")
+public class FeatureController {
+	
+	@Autowired
+	private FeatureService featureService;
+	
+	
+	
+	@PostMapping("/features")
+	 public ResponseEntity<String> findFeatures(@RequestBody Map<String, String> params) {
+        String stn4contest = params.get("stn4contest");
+        String efYear = params.get("efYear");
+        String efMonth = params.get("efMonth");
+        String efDay = params.get("efDay");
+        String efHour = params.get("efHour");
+
+        List<FeatureDTO> list = featureService.findFeatures(stn4contest, efYear, efMonth, efDay, efHour);
+        
+        //플라스크로 데이터를 전송하고 응답을 받음
+        String flaskResponse = featureService.sendFeaturesToFlask(list);
+        return ResponseEntity.ok(flaskResponse);
+	}
+}

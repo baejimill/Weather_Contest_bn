@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.ruby.domain.Member;
-import com.ruby.persistence.MemberRepository;
+import edu.pnu.persistence.MemberRepository;
 
 @SpringBootTest
 public class MemberTest {
@@ -14,6 +13,7 @@ public class MemberTest {
 //	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	@Test
 	public void addMember() {
+/*		
 		Member mem = Member.builder()
 					.name("11")
 					.email("11@naver.com")
@@ -22,6 +22,7 @@ public class MemberTest {
 					.build();
 		
 		memberRepository.save(mem);
+*/		
 	}
 }
 

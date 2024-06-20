@@ -1,5 +1,0 @@
-package com.ruby.domain;
-
-public class LoginRequest {
-
-}

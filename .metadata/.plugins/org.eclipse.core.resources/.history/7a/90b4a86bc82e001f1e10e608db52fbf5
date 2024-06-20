@@ -1,0 +1,38 @@
+package edu.pnu.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import edu.pnu.domain.Feature;
+import edu.pnu.service.FeatureService;
+
+@RestController
+@RequestMapping("/api")
+public class FeatureController {
+	
+	@Autowired
+	private FeatureService featureService;
+	
+	
+	
+	@PostMapping("/features")
+	public ResponseEntity<Feature> createFeature(@RequestBody Feature feature){
+		Feature createdFeature = featureService.createFeature(feature);
+		//플라스크로 피쳐 데이터 전송
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.postForEntity(FLASK_URL, createdFeature.getFeatureData(), String.class);
+        String prediction = response.getBody();
+        
+        //예측 결과 저장
+        featureService.saveResult(createdFeature, prediction);
+//		Feature savedFeature = featureService.saveFeature(feature);
+		//플라스크로 피처 데이터를 전송하는 로직을 추가
+		return ResponseEntity.ok(createdFeature);
+	}
+
+}

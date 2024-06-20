@@ -1,0 +1,83 @@
+package edu.pnu.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.pnu.DTO.FeatureDTO;
+import edu.pnu.persistence.FeatureRepository;
+
+@Service
+public class FeatureService {
+    @Autowired
+    private FeatureRepository featureRepository;
+
+    public FeatureDTO findFeatures(String stn4contest, String efYear, String efMonth, String efDay, String efHour) {
+       
+        List<Object[]> list = featureRepository.findFeatures(stn4contest, efYear, efMonth, efDay, efHour);
+
+        Obejct[] arr = list.get(0);
+        
+            FeatureDTO f = new FeatureDTO();
+            f.setFc_year((String) arr[0]);
+            f.setFc_month((Long) arr[1]);
+            f.setFc_day((Long) arr[2]);
+            f.setFc_hour((Long) arr[3]);
+            f.setStn4contest((String) arr[4]);
+            f.setDh((Long) arr[5]);
+            f.setEf_year((String) arr[6]);
+            f.setEf_month((Long) arr[7]);
+            f.setEf_day((Long) arr[8]);
+            f.setEf_hour((Long) arr[9]);
+            f.setV01((Long) arr[10]);
+            f.setV02((Long) arr[11]);
+            f.setV03((Long) arr[12]);
+            f.setV04((Long) arr[13]);
+            f.setV05((Long) arr[14]);
+            f.setV06((Long) arr[15]);
+            f.setV07((Long) arr[16]);
+            f.setV08((Long) arr[17]);
+            f.setV09((Long) arr[18]);
+
+        return f;
+    }
+    public String sendFeaturesToFlask(FeatureDTO feature) {
+        //헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+     // ObjectMapper를 이용해 List<FeatureDTO>를 JSON으로 변환
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonFeatures = "";
+        try {
+            jsonFeatures = objectMapper.writeValueAsString(feature);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(feature);
+        }
+        
+        // 요청 엔티티 생성
+        HttpEntity<String> request = new HttpEntity<>(jsonFeatures, headers);
+
+        // RestTemplate으로 POST 요청 전송
+        RestTemplate restTemplate = new RestTemplate();
+        String flaskurl = "http://5000/plot";
+        ResponseEntity<String> flaskResponse = restTemplate.postForEntity(flaskurl, request, String.class);
+
+        // 플라스크 응답 처리
+        System.out.println("Flask response: " + flaskResponse.getBody());
+
+        return flaskResponse.getBody();
+    }
+}
+
+
