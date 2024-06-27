@@ -11,9 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 import edu.pnu.config.filter.JWTAuthenticationFilter;
 import edu.pnu.config.filter.JWTAuthorizationFilter;
@@ -31,12 +29,18 @@ public class SecurityConfig {
 	 private AuthenticationConfiguration authenticationConfiguration;
 	
 	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
 	SecurityFilterChain filerChain(HttpSecurity http) throws Exception {
 		http.csrf(cf->cf.disable());
 		
         http.authorizeHttpRequests(auth -> auth
 //        		.requestMatchers("/api/members","/api/login").hasAnyRole("USER", "ADMIN")
                 .anyRequest().permitAll());
+  
         
         http.formLogin(frmLogin->frmLogin.disable());  // Form을 이용한 로그인을 사용하지 않겠다는 설정
         
@@ -49,29 +53,26 @@ public class SecurityConfig {
         // 스프링 시큐리티가 등록한 필터들 중에서 AuthorizationFilter 앞에 앞에서 작성한 필터를 삽입한다.
         http.addFilterBefore(new JWTAuthorizationFilter(memberRepository), AuthorizationFilter.class);
         
-		http.cors(cors->cors.configurationSource(corsSource()));
+//		http.cors(cors->cors.configurationSource(corsSource()));
 		return http.build();
 	}
 	
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 	
-	private CorsConfigurationSource corsSource() {
-		 CorsConfiguration config = new CorsConfiguration();
-		 config.addAllowedOriginPattern(CorsConfiguration.ALL) ;
-		 config.addAllowedMethod(CorsConfiguration.ALL) ;
-		 config.addAllowedHeader(CorsConfiguration.ALL);
-		 config.setAllowCredentials(true);
-		 config.addExposedHeader(CorsConfiguration.ALL);
-		 // 요청을 허용할 서버
-		// 요청을 허용할 Method
-		 // 요청을 허용할 Header
-		 // 요청/응답에 자격증명정보 포함을 허용
-		// true인 경우 addAllowedOrigin(“*”)는 사용 불가 ➔ Pattern으로 변경
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		 source.registerCorsConfiguration("/**", config);
-		 return source;
-	}
+//	private CorsConfigurationSource corsSource() {
+//		 CorsConfiguration config = new CorsConfiguration();
+//		 config.addAllowedOriginPattern(CorsConfiguration.ALL) ;
+//		 config.addAllowedMethod(CorsConfiguration.ALL) ;
+//		 config.addAllowedHeader(CorsConfiguration.ALL);
+//		 config.setAllowCredentials(true);
+//		 config.addExposedHeader(CorsConfiguration.ALL);
+//		 // 요청을 허용할 서버
+//		// 요청을 허용할 Method
+//		 // 요청을 허용할 Header
+//		 // 요청/응답에 자격증명정보 포함을 허용
+//		// true인 경우 addAllowedOrigin(“*”)는 사용 불가 ➔ Pattern으로 변경
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		 source.registerCorsConfiguration("/**", config);
+//		 return source;
+//	}
 }

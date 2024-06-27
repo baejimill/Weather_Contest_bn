@@ -2,6 +2,8 @@ package edu.pnu.domain;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,8 +38,9 @@ public class Question {
 	private String content;
 	
 	@ManyToOne //한명의 작성자가 여러 질문 가능
-	@JoinColumn(name = "author_id")
-	private Member author; //필드 이름에 _id가 없어도 @JoinColumn 을 이용해서 'author_id' 컬럼과 연결!
+	@JoinColumn(name = "member_id")
+	@JsonBackReference
+	private Member member; //필드 이름에 _id가 없어도 @JoinColumn 을 이용해서 'author_id' 컬럼과 연결!
 	
 	@Builder.Default
 	@Column(name = "question_date")

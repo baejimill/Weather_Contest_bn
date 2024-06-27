@@ -27,6 +27,8 @@ public class FeatureController {
 		return ResponseEntity.ok(featureService.getFeatures(stn4contest, year, month, day));
 	}
 	
+	
+	
 	// 예측 데이터 생성 및 전달
 	@PostMapping("/features") 
 	 public ResponseEntity<?> findFeatures(@RequestBody Map<String, String> params) {

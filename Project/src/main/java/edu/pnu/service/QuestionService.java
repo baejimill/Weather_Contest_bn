@@ -18,8 +18,8 @@ public class QuestionService {
 	private MemberRepository memberRepository;
 	
 	public Question createQuestion(Question question, Long authorId) { //작성자(author)룰 설정 질문을 저장
-		Member author = memberRepository.findById(authorId).orElseThrow(()-> new RuntimeException("회원을 찾을 수 없습니다."));
-		question.setAuthor(author);
+		Member member = memberRepository.findById(authorId).orElseThrow(()-> new RuntimeException("회원을 찾을 수 없습니다."));
+		question.setMember(member);
 		return questionRepository.save(question);
 	}
 	

@@ -1,0 +1,54 @@
+//// UserService.java
+//package edu.pnu.service;
+//
+//import java.util.stream.Collectors;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.userdetails.User;
+//import org.springframework.stereotype.Service;
+//import edu.pnu.DTO.UserResponseDTO;
+//import edu.pnu.domain.Member;
+//import edu.pnu.domain.Question;
+//import edu.pnu.persistence.MemberRepository;
+//
+//@Service
+//public class UserService {
+//
+//    @Autowired
+//    private MemberRepository memberRepository;
+//
+//    public UserResponseDTO getUserInfo() {
+//        String email = getCurrentUserEmail();
+//        Member user = memberRepository.findByemail(email).orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        return new UserResponseDTO(
+//            user.getUsername(),
+//            user.getEmail(),
+//            user.getQuestions().stream().map(this::convertToQuestionResponse).collect(Collectors.toList())
+//        );
+//    }
+//
+//    private String getCurrentUserEmail() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.getPrincipal() instanceof User) {
+//            return ((User) authentication.getPrincipal()).getUsername();
+//        } else {
+//            throw new RuntimeException("No authenticated user found");
+//        }
+//    }
+//
+//    private UserResponseDTO.QuestionResponse convertToQuestionResponse(Question question) {
+//        return new UserResponseDTO.QuestionResponse(
+//            question.getId(),
+//            question.getTitle(),
+//            question.getContent(),
+//            question.getQuestionDate().toString(),
+//            question.getAnswer() != null ? new UserResponseDTO.AnswerResponse(
+//                question.getAnswer().getId(),
+//                question.getAnswer().getContent(),
+//                question.getAnswer().getAnswerDate().toString()
+//            ) : null
+//        );
+//    }
+//}

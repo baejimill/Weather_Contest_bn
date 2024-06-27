@@ -1,5 +1,6 @@
 package edu.pnu.DTO;
 
+import edu.pnu.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +15,5 @@ import lombok.Setter;
 public class MemberDTO {
 	private String username;
 	private String email;
-	private String password;
-	private String role;
+	private Role role;
 }

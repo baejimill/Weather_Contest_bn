@@ -1,0 +1,42 @@
+package edu.pnu.domain;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Result {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+//	@OneToOne
+//	@JoinColumn(name = "feature_id")
+//	private Feature feature;
+	
+	@Column(columnDefinition = "json")
+	private String resultData;
+	
+	@Builder.Default
+	@Column(name = "response_date")
+	private LocalDateTime responseDate = LocalDateTime.now();
+}

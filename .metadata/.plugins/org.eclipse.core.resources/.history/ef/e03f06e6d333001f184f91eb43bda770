@@ -1,0 +1,33 @@
+package edu.pnu.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import edu.pnu.domain.Member;
+import edu.pnu.persistence.MemberRepository;
+
+@Service
+public class SecurityUserDetailsService implements UserDetailsService   {
+	
+	@Autowired
+	private MemberRepository memberRepository;
+	
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		//memRepo에서 사용자 정보를 검색해서
+		Member member = memberRepository.findByemail(email)
+				.orElseThrow(()-> new UsernameNotFoundException("Not found : " +email));
+		System.out.println(member);
+		
+		// UserDetails 타입의 객체를 생성해서 리턴 (o.s.s.core.userdetails.User)
+		// 여기에서 리턴된 User 객체와 로그인 요청 정보를 비교한다.
+		return new User(member.getEmail(), member.getPassword(),
+				 AuthorityUtils.createAuthorityList(member.getRole().toString()));
+	}
+	
+}

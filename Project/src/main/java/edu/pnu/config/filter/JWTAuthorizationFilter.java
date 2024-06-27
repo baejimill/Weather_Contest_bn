@@ -42,7 +42,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		// 필터를 그냥 통과
 		// 토큰에서 “Bearer ”를 제거
 		String email =  JWT.require(Algorithm.HMAC256("com.ruby.jwt")).build().verify(jwtToken).getClaim("email").asString();
-		 Optional<Member> opt = memberRepository.findByemail(email); // 토큰에서 얻은 email으로 DB를 검색해서 사용자를 검색
+		 Optional<Member> opt = memberRepository.findByEmail(email); // 토큰에서 얻은 email으로 DB를 검색해서 사용자를 검색
 		if (!opt.isPresent()) {
 			filterChain.doFilter(request, response);
 			return;
@@ -63,4 +63,3 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 	}
 	
 }
-

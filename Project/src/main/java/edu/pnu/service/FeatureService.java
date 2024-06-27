@@ -30,10 +30,11 @@ public class FeatureService {
         
         FeatureDTO dto = FeatureDTO.of(f);
         
-        return dto.toString();
+        //return dto.toString(); //test용 to string return!
         
         //플라스크로 데이터를 전송하고 응답을 받음
-        //return sendFeaturesToFlask(dto);
+        System.out.println(dto);
+        return sendFeaturesToFlask(dto);
     }
     public String sendFeaturesToFlask(FeatureDTO feature) {
         //헤더 설정
@@ -55,7 +56,7 @@ public class FeatureService {
 
         // RestTemplate으로 POST 요청 전송
         RestTemplate restTemplate = new RestTemplate();
-        String flaskurl = "http://5000/plot";
+        String flaskurl = "http://localhost:5000/predict";
         ResponseEntity<String> flaskResponse = restTemplate.postForEntity(flaskurl, request, String.class);
 
         // 플라스크 응답 처리

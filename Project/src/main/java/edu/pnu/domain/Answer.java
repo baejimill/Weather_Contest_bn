@@ -36,8 +36,8 @@ public class Answer {
 	private Question question;
 	
 	@ManyToOne
-	@JoinColumn(name = "author_id")
-	private Member author;
+	@JoinColumn(name = "member_id")
+	private Member member;
 	
 	private String content;
 	

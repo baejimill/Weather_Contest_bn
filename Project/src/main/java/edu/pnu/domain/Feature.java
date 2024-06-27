@@ -19,7 +19,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "data")
 public class Feature {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
