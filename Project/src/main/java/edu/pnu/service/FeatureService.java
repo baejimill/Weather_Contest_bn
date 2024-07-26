@@ -56,7 +56,7 @@ public class FeatureService {
 
         // RestTemplate으로 POST 요청 전송
         RestTemplate restTemplate = new RestTemplate();
-        String flaskurl = "http://localhost:5000/predict";
+        String flaskurl = "http://172.21.102.14:5000/predict";
         ResponseEntity<String> flaskResponse = restTemplate.postForEntity(flaskurl, request, String.class);
 
         // 플라스크 응답 처리
